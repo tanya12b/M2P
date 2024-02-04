@@ -1,0 +1,45 @@
+// Establish the pin numbers for the LED and button.
+const uint8_t BTN_PIN = 2;   // Pin attached to the button
+const uint8_t LED_PIN = 13;  // Pin attached to the LED
+
+//Initialize the previous button state to LOW and the LED state to LOW.
+//Variables to hold the previous button state and the current LED state
+uint8_t buttonPrevState = LOW;
+uint8_t ledState = LOW;       
+
+void setup()
+{
+// Use a pull-up resistor to initialize the button pin as an input
+  pinMode(BTN_PIN, INPUT_PULLUP);
+  
+  // Initialize LED pin as output
+  pinMode(LED_PIN, OUTPUT);
+  
+  // Initialize serial communication for debugging
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  // Check the button's current condition.
+  uint8_t buttonState = digitalRead(BTN_PIN);
+  
+  // To debug Serial, print the current button state,
+  // the previous button state, and the LED state
+  Serial.print("Button State is  ");
+  Serial.print(buttonState);
+  Serial.print(" Previous State is ");
+  Serial.print(buttonPrevState);
+  Serial.print(" LED State is ");
+  Serial.println(ledState);
+  
+  // If the button state changes, toggle the LED
+  if(buttonState != buttonPrevState)
+  {
+    ledState = !ledState;            // Toggle the LED state
+    digitalWrite(LED_PIN, ledState); // Update the LED
+  }
+  buttonPrevState = buttonState;
+  delay(500);
+}
+
